@@ -25,7 +25,6 @@ export class SamlInterceptor implements HttpInterceptor {
       catchError((err, res) => {
         console.log(err);
         console.log(res);
-        // window.location.href = 'http://localhost:7000/saml/sso';
         return of();
       })
     );
