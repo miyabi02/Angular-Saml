@@ -1,7 +1,10 @@
 export declare type ResultType = 'success' | 'failed';
 export declare type Metrics = { width:number, height: number};
-export declare type CallbackFunction = (result: ResultType) => void;
+// export declare type CallbackFunction = (result: ResultType) => void;
+export declare type CallbackFunction = (result: AuthResult) => void;
+// ! メモ: AuthEventの使い方がわからない。
 export declare type AuthEvent = {result: ResultType} & Event;
+export declare type AuthResult = { result: ResultType, data: Record<string, string> };
 export const DEFAULT_WIDTH = 600;
 export const DEFAULT_HEIGHT = 340;
 export declare type AuthenticationParams = {
@@ -12,7 +15,7 @@ export declare type AuthenticationParams = {
 };
 
 interface WindowEventMap {
-  'authResult': CustomEvent<ResultType>;
+  'authResult': CustomEvent<AuthResult>;
 }
 
 declare global {
@@ -43,16 +46,16 @@ export const showAuthWindow = (params: AuthenticationParams) => {
   // });
 
   window.addEventListener('authResult', (ev) => {
-    console.log("EventListener: window.showAuthWindow");
+    console.log("showAuthWindow Event=authResult Fire");
     params.callback(ev.detail);
     authWindow?.close();
   });
 
 };
 
-export const sendResult = (result: ResultType) => {
-  console.log("Callback: sendResult");
-  const event = new CustomEvent<ResultType>('authResult', {detail: result});
+export const sendResult = (data: AuthResult) => {
+  console.log("sendResult begin"); // 子画面で実行するので出力されても見えない
+  const event = new CustomEvent<AuthResult>('authResult', {detail: data});
   window.opener?.dispatchEvent(event);
 
 };

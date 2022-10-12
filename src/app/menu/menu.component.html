@@ -1,7 +1,15 @@
 <p>menu works!</p>
 
-<p *ngIf="info">{{ info.name }}</p>
+<div *ngIf="sessionID">
+  <p>ログイン済：{{ sessionID }}</p>
+</div>
 
-<button type="button" (click)="login()">
-  <span class>ログイン</span>
-</button>
+<!--
+<a routerLink="/page1">認証が必要なページ(想定)</a>
+-->
+
+<div *ngIf="!sessionID">
+  <button type="button" (click)="login()">
+    <span>ログイン</span>
+  </button>
+</div>

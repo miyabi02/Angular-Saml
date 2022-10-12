@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, AuthInfo } from '../services/api.service';
+// import { ApiService, AuthInfo } from '../services/api.service';
 import * as authWindow from '../auth/auth-window';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
 })
 export class MenuComponent implements OnInit {
-  info: AuthInfo | undefined;
+  // info: AuthInfo | undefined;
 
-  constructor(private api:ApiService) { }
+  sessionID: string = "";
+
+  // constructor(private api: ApiService) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
+    this.sessionID = localStorage.getItem('ssid') ?? "";
   }
 
   login(): void {
@@ -20,8 +25,22 @@ export class MenuComponent implements OnInit {
     // this.api.isAuthenticatedbyUser().subscribe(i => this.info = i);
 
     // * Angularアプリ(ダイアログ)のリダイレクト先を個別に用意。
-    authWindow.showAuthWindow({url: 'http://localhost:3000/api/auth', callback: (ret) => console.log(ret)});
+    authWindow.showAuthWindow({
+      url: 'http://localhost:3000/api/auth',
+      callback: this.termLogin,
+    });
   }
 
-  // TODO: 認証結果を保存＆画面の制御を実施
+  termLogin(result: authWindow.AuthResult): void {
+    // 結果を保存
+    for (const key of Object.keys(result.data)) {
+      console.log(`key=${key}, value=${result.data[key]}`);
+      localStorage.setItem(key, result.data[key]);
+    }
+
+    this.sessionID = localStorage.getItem('ssid') ?? "";
+
+    // TODO: 認証が必要なページ(想定)に遷移
+    //this.router.navigate(['/page1']);
+  }
 }
