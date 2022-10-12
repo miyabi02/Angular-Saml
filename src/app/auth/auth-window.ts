@@ -49,6 +49,9 @@ export const showAuthWindow = (params: AuthenticationParams) => {
     console.log("showAuthWindow Event=authResult Fire");
     params.callback(ev.detail);
     authWindow?.close();
+
+    // 認証ウィンドウを呼び出すたびに、listenerが増えるため削除（サンプルのため横着）
+    window.removeAllListeners!('authResult');
   });
 
 };
