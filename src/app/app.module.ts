@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MenuComponent } from './menu/menu.component';
 import { SamlInterceptor } from './services/saml.interceptor';
+import { CallbackAuthComponent } from './callback-auth/callback-auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    CallbackAuthComponent
   ],
   imports: [
     BrowserModule,

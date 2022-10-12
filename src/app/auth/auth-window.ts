@@ -36,15 +36,23 @@ export const showAuthWindow = (params: AuthenticationParams) => {
   const feature = `left=${left}, top=${top}, width=${width}, height=${height}`;
 
   const authWindow = window.open(params.url, target, feature);
-  authWindow?.addEventListener('authResult', (ev) => {
-    console.log("EventListener: showAuthWindow");
+  // authWindow?.addEventListener('authResult', (ev) => {
+  //   console.log("EventListener: showAuthWindow");
+  //   params.callback(ev.detail);
+  //   authWindow?.close();
+  // });
+
+  window.addEventListener('authResult', (ev) => {
+    console.log("EventListener: window.showAuthWindow");
     params.callback(ev.detail);
     authWindow?.close();
   });
+
 };
 
 export const sendResult = (result: ResultType) => {
   console.log("Callback: sendResult");
   const event = new CustomEvent<ResultType>('authResult', {detail: result});
   window.opener?.dispatchEvent(event);
+
 };
