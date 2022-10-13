@@ -4,9 +4,9 @@
   <p>ログイン済：{{ sessionID }}</p>
 </div>
 
-<!--
-<a routerLink="/page1">認証が必要なページ(想定)</a>
--->
+  <button type="button" (click)="navigateNext()">
+    <span>認証が必要なページ(想定)</span>
+  </button>
 
 <div *ngIf="!sessionID">
   <button type="button" (click)="login()">

@@ -11,13 +11,13 @@ import { Router } from '@angular/router';
 export class MenuComponent implements OnInit {
   // info: AuthInfo | undefined;
 
-  sessionID: string = "";
+  sessionID: string = '';
 
   // constructor(private api: ApiService) {}
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
   ngOnInit(): void {
-    this.sessionID = localStorage.getItem('ssid') ?? "";
+    this.sessionID = localStorage.getItem('ssid') ?? '';
   }
 
   login(): void {
@@ -27,20 +27,17 @@ export class MenuComponent implements OnInit {
     // * Angularアプリ(ダイアログ)のリダイレクト先を個別に用意。
     authWindow.showAuthWindow({
       url: 'http://localhost:3000/api/auth',
-      callback: this.termLogin,
+      callback: (result) => {
+        // 結果を保存し、画面遷移
+        for (const key of Object.keys(result.data)) {
+          localStorage.setItem(key, result.data[key]);
+        }
+        this.router.navigateByUrl('page1');
+      },
     });
   }
 
-  termLogin(result: authWindow.AuthResult): void {
-    // 結果を保存
-    for (const key of Object.keys(result.data)) {
-      console.log(`key=${key}, value=${result.data[key]}`);
-      localStorage.setItem(key, result.data[key]);
-    }
-
-    this.sessionID = localStorage.getItem('ssid') ?? "";
-
-    // TODO: 認証が必要なページ(想定)に遷移
-    //this.router.navigate(['/page1']);
+  navigateNext(): void {
+    this.router.navigateByUrl('page1');
   }
 }
