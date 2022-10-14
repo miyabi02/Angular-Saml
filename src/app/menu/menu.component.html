@@ -2,14 +2,15 @@
 
 <div *ngIf="sessionID">
   <p>ログイン済：{{ sessionID }}</p>
-</div>
 
   <button type="button" (click)="navigateNext()">
     <span>認証が必要なページ(想定)</span>
   </button>
-
-<div *ngIf="!sessionID">
-  <button type="button" (click)="login()">
-    <span>ログイン</span>
-  </button>
 </div>
+
+<div *ngIf="sessionID">
+  <p>↓ローカルストレージにセッションIDが保存されているため、ログインボタンを押下(2回目)してもSaml認証画面に進まない</p>
+</div>
+<button type="button" (click)="login()">
+  <span>ログイン</span>
+</button>

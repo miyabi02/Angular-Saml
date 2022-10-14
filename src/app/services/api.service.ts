@@ -7,7 +7,6 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ApiService {
-  private authUrl = 'api/auth';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
@@ -16,13 +15,10 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  isAuthenticatedbyUser(): Observable<AuthInfo> {
+  logout(): Observable<Result> {
     return this.http
-      .post<AuthInfo>(this.authUrl, {}, this.httpOptions)
-      .pipe(tap((_) => console.log(`Called: ${this.authUrl}`)));
+      .post<Result>('api/logout', {}, this.httpOptions);
   }
 }
 
-export interface AuthInfo {
-  name: string;
-}
+export declare type Result = { result: string };
